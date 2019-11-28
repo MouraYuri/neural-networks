@@ -18,11 +18,17 @@ def train(dataset, threshold, eta, eras):
     #training start
     for era in range(eras):
         for i in range(len(dataset)):
-            yHat = np.inner(dataset.iloc[i, :len(dataset.columns)-1], weightsVector) #estimated y | Provável bucho aqui ein
-            E = int(dataset.iloc[i, len(dataset.columns)-1])-yHat
-            #atualizar w1 = 2*(E)*-x1
-            #atualizar w2 = 2*(E)*-x2
-            #atualizar theta = 2*(E)*-1
+            yHat = (np.inner(dataset.iloc[i, :len(dataset.columns)-1], weightsVector) + theta) #estimated y | Provável bucho aqui ein
+            E = dataset.iloc[i, len(dataset.columns)-1]-yHat
+            
+            #Updating weights and theta
+            for x in range(len(weightsVector)):
+                weightsVector[x] = weightsVector[x] -  eta*(2*E*(-(dataset.iloc[i, x])))
+            theta = theta - eta*(-2*E)
+        
+        #Shuffling the dataset
+        dataset.sample(frac=1)
+    print(weightsVector)
 dataset = preProcessingData(open('./simple-perceptron/dataset.txt', 'r').readlines())
-train(dataset, 0.5, 0.1, 1)
+train(dataset, 0.5, 0.1, 10)
 
