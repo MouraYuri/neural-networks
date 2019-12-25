@@ -1,13 +1,29 @@
 import pandas as pd
 from random import random
 import numpy as np
-def preProcessingData(data):
-    for x in range(len(data)):
-        data[x] = data[x].split(' ')
-        data[x][2] = data[x][2].rstrip()
-        data[x][0], data[x][1], data[x][2] = int(data[x][0]), int(data[x][1]), int(data[x][2])
-    df = pd.DataFrame(data, columns = ['x1', 'x2', 'y'])
-    return df
 
-dataset = preProcessingData(open('./simple-perceptron/dataset2', 'r').readlines())
-print(dataset)
+'''
+    O que o perceptron tem que ter:
+        pesos
+        dataset com os exemplos
+
+
+
+
+'''
+
+class Percetron:
+    
+    def __init__(self, data, n):
+        self.dataFrame = self.preProcessingData(data)
+        self.weights = np.random.rand(1, 4)
+        print(self.weights)
+    
+    def preProcessingData(self, data):
+        data = [x.split(',') for x in data]
+        data = pd.DataFrame(data, columns = ['x1','x2','x3','x4', 'y'])
+        return data
+
+
+data = open('./simple-perceptron/dataset2', 'r')
+Percetron(data, 4)
