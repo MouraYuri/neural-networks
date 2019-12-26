@@ -1,11 +1,10 @@
-import pandas as pd
+from simple-perceptron import Perceptron
 
-def preProcessingData(dataset):
-    return pd.DataFrame(dataset, columns=['x1', 'x2', 'x3', 'x4', 'y'])
+'''
+    Type 1 = Iris-Setosa
+    Type 2 =
+    Type 3 = 
 
-def train(dataset):
-    
+'''
 
-
-dataset = preProcessingData([x.split(',') for x in (open('./simple-perceptron/irisDataset.txt', 'r')).readlines()])
-
+p = Perceptron()
