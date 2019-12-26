@@ -2,21 +2,12 @@ import pandas as pd
 from random import random
 import numpy as np
 
-'''
-    O que o perceptron tem que ter:
-        pesos
-        dataset com os exemplos
-
-
-
-
-'''
 
 class Percetron:
     
     def __init__(self, data, n, eta):
         self.dataFrame = self.preProcessingData(data)
-        self.weights = np.random.rand(1, 5)
+        self.weights = np.zeros(5)
         self.eta = eta
         self.train()
 
@@ -36,7 +27,7 @@ class Percetron:
             totalError=0
             for x in range(len(self.dataFrame)):
                 row = (self.dataFrame.iloc[x, :-1]).to_numpy()
-                row = np.append(row, 1)
+                row = np.append(row, -1)
                 yHat = self.f(np.inner(row, self.weights))
                 e = int(self.dataFrame.iloc[x, -1:]) - yHat
                 if e != 0: totalError += 1
@@ -56,7 +47,7 @@ class Percetron:
         dfToTest, totalError = (self.preProcessingData(data)).sample(frac=1), 0
         for x in range(len(dfToTest)):
             row = (dfToTest.iloc[x, :-1]).to_numpy()
-            row = np.append(row, 1)
+            row = np.append(row, -1)
             yHat = self.test(row)
             e = int(dfToTest.iloc[x, -1:]) - yHat
             if (e!=0): totalError+=1
@@ -66,6 +57,6 @@ class Percetron:
 
 data = open('./simple-perceptron/dataset2', 'r')
 datatotest = open('./simple-perceptron/datatotest', 'r')
-p = Percetron(data, 4, 0.01)
+p = Percetron(data, 4, 0.001)
 print('===================================================')
 p.test_dataset(datatotest)
