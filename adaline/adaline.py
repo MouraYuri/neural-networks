@@ -53,11 +53,8 @@ class Adaline :
                 print('sse => ', self.sse())
         print('weights final => ',self.weights)
         print('sse final => ', self.sse())
-        
 
 
-
-
-data = open('./simple-perceptron/dataset2', 'r')
-datatotest = open('./simple-perceptron/datatotest', 'r')
+data = open('./adaline/datasetAdaline', 'r')
+datatotest = open('./adaline/datasetAdalineTest', 'r')
 a = Adaline(data, 0.1, 10)
