@@ -1,6 +1,11 @@
 import numpy as np
 import pandas as pd
 
+'''
+Batch Gradient Descent
+'''
+
+
 class Adaline :
     def __init__(self, data, eta, n_iter):
         self.data = self.preProcessingData(data)
@@ -19,16 +24,20 @@ class Adaline :
         if x >=0: return 1
         else: return -1
 
+    def sse(self):
+        
+
     def train(self):
-        for _ in range(1):
+        for _ in range(10):
         #for _ in range(self.n_iter):
-            sse=0 #Sum of Squared Errors
-            for x in range(len(self.data)):
-                row = (self.data.iloc[x][:-1]).to_numpy()
-                row = np.append(-1, row)
-                #sse += (self.data.iloc[x][-1])
-                print(self.data.iloc[x][-1])
-                
+            sse, ctrl = 0, 0 #(SSE == Sum of Squared Errors)
+            for Xj in range(len(self.data.columns) - 1):
+                for i in range(len(self.data)):
+                    row = np.append(-1, (self.data.iloc[i][:-1]).to_numpy())
+                    #row = np.append(-1, row)
+                    #sse += (self.data.iloc[x][-1])
+                    ctrl += (self.data.iloc[i][-1] - np.inner(row, self.weights))*self.data.iloc[i][Xj]
+                    print(ctrl)
 
 
 
