@@ -20,9 +20,6 @@ class Adaline :
         data = pd.DataFrame(data, columns = ['x1','x2','x3','x4', 'y'])
         return data
 
-    def f(self, x):
-        if x >=0: return 1
-        else: return -1
 
     def sse(self): #Sum of Squared Errors
         ctrl = 0
@@ -54,7 +51,12 @@ class Adaline :
         print('weights final => ',self.weights)
         print('sse final => ', self.sse())
 
+    def test(self, data):
+        return np.inner(self.weights, data)
+
+
 
 data = open('./adaline/datasetAdaline', 'r')
 datatotest = open('./adaline/datasetAdalineTest', 'r')
-a = Adaline(data, 0.1, 10)
+a = Adaline(data, 0.001, 100)
+print(a.test([-1,5.8,2.7,4.1,1.0]))
