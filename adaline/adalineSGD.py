@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 
 '''
-Batch Gradient Descent
+Stochastic Gradient Descent
 '''
 
 
-class Adaline :
+class AdalineSGD:
     def __init__(self, data, eta, n_iter):
         self.data = self.preProcessingData(data)
         self.weights = np.zeros(5)
@@ -34,32 +34,22 @@ class Adaline :
             print('========================================')
             self.data = self.data.sample(frac=1) #shuffling the dataset
             weights = self.weights
-            
+
             #Updating weights
-            for w in range(len(self.weights)):
-                deltaW = 0
-                for i in range(len(self.data)):
-                    row = np.append(-1, self.data.iloc[i][:-1])
-                    linearOutput = np.inner(row, weights) 
-                    y = self.data.iloc[i][-1]
-                    deltaW += (y - linearOutput)*row[w]
-                self.weights[w] += self.eta*deltaW
-                print('sse => ', self.sse())
+            for i in range(len(self.data)):
+                row = np.append(-1, self.data.iloc[i][:-1])
+                linearOutput = np.inner(row, weights) 
+                y = self.data.iloc[i][-1]
+                for w in range(len(self.weights)):
+                    self.weights[w] = self.weights[w] + self.eta*(y-linearOutput)*row[w]
+            print('sse => ', self.sse())
         print('weights final => ',self.weights)
         print('sse final => ', self.sse())
 
     def test(self, data):
         return np.inner(self.weights, data)
 
-
-
 data = open('./adaline/datasetAdaline', 'r')
 datatotest = open('./adaline/datasetAdalineTest', 'r')
-a = Adaline(data, 0.001, 500)
+a = AdalineSGD(data, 0.001, 150)
 print(a.test([-1,5.8,2.7,4.1,1.0]))
-
-'''
-weights final =>  [-0.11714699  0.22328073  0.12287181 -0.42783732 -0.28992705]
-sse final =>  0.7042660563150469
-
-'''
